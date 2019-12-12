@@ -1,4 +1,4 @@
-# hiptext [![Build Status](https://travis-ci.org/jart/hiptext.svg?branch=master)](https://travis-ci.org/jart/hiptext)
+# hiptext
 
 hiptext is command line tool for rendering images and videos inside terminals.
 
@@ -8,20 +8,22 @@ hiptext is command line tool for rendering images and videos inside terminals.
 
 ![Obama in Macterm](http://i.imgur.com/UnfnpMr.png)
 
+## This Fork
+
+This fork removes the video support and updates the autoconf to make it
+simpler to build on Ubuntu 19.10
+
 ## Dependencies
 
-You need clang or gcc >=4.7. You also need to install:
+On Ubuntu 19.10 you can install the dependencies with:
 
-    sudo apt-get install build-essential libpng12-dev libjpeg-dev \
-        libfreetype6-dev libavformat-dev libavcodec-dev \
-        libswscale-dev libgflags-dev libgoogle-glog-dev ragel
+    apt-get -y install build-essential autoconf pkg-config libjpeg-dev \
+        libavcodec-dev libavformat-dev libavutil-dev libgoogle-glog-dev \
+        libpng-dev libswscale-dev libfreetype6-dev libgflags-dev ragel \
 
 ## Installation
 
-    wget https://github.com/jart/hiptext/releases/download/0.2/hiptext-0.2.tar.gz
-    tar xvzf hiptext-0.2.tar.gz
-    cd hiptext-0.2
-
+    ./autogen.sh
     ./configure
     make -j4
     sudo make install
@@ -33,13 +35,6 @@ You need clang or gcc >=4.7. You also need to install:
 Most image types, e.g. JPEG, PNG, GIF, etc. are supported.
 
     hiptext balls.png
-
-### Videos
-
-You can play videos in your terminal using hiptext. Yes, really.
-
-    youtube-dl -o gangnam-style.mp4 https://www.youtube.com/watch?v=9bZkp7q19f0
-    hiptext gangnam-style.mp4
 
 ### Miscellaneous
 

@@ -14,6 +14,9 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 
+#define PNG_SKIP_SETJMP_CHECK
+#include <png.h>
+
 #include "hiptext/artiste.h"
 #include "hiptext/charquantizer.h"
 #include "hiptext/font.h"
@@ -21,7 +24,6 @@
 #include "hiptext/pixel.h"
 #include "hiptext/png.h"
 #include "hiptext/macterm.h"
-#include "hiptext/movie.h"
 #include "hiptext/xterm256.h"
 #include "hiptext/termprinter.h"
 #include "hiptext/sixelprinter.h"
@@ -206,7 +208,6 @@ int main(int argc, char** argv) {
   if (lang == nullptr) lang = "en_US.utf8";
   std::locale::global(std::locale(lang));
   InitFont();
-  Movie::InitializeMain();
 
   RenderAlgorithm algo;
   bool duo_pixel = false;
@@ -244,24 +245,20 @@ int main(int argc, char** argv) {
   // Otherwise get an arg.
   if (argc < 2) {
     fprintf(stderr, "Missing file argument.\n"
-            "Usage: %s [OPTIONS] [IMAGE_FILE | MOVIE_FILE]\n"
+            "Usage: %s [OPTIONS] [IMAGE_FILE]\n"
             "       %s --help\n", argv[0], argv[0]);
     exit(1);
   }
   string path = argv[1];
-  string extension = GetExtension(path);
-  if (extension == "png") {
+  FILE *fp = fopen(path.data(), "rb");
+  PCHECK(fp) << path;
+  uint8_t header[8];
+  PCHECK(fread(header, 8, 1, fp) == 1) << path;
+  PCHECK(fclose(fp) == 0) << path;
+  if (!png_sig_cmp(header, 0, 8))
     artiste.PrintImage(LoadPNG(path));
-  } else if (extension == "jpg" || extension == "jpeg") {
+  else
     artiste.PrintImage(LoadJPEG(path));
-  } else if (extension == "mov" || extension == "mp4" || extension == "flv" ||
-             extension == "avi" || extension == "mkv") {
-    artiste.PrintMovie(Movie(path));
-  } else {
-    fprintf(stderr, "Unknown Filetype: %s\n", extension.data());
-    exit(1);
-  }
-
   exit(0);
 }
 

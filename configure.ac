@@ -28,32 +28,8 @@ PKG_CHECK_MODULES(LIBAVUTIL, libavutil)
 PKG_CHECK_MODULES(LIBGLOG, libglog)
 PKG_CHECK_MODULES(LIBPNG, libpng)
 PKG_CHECK_MODULES(LIBSWSCALE, libswscale)
-
-LIBGFLAGS_CFLAGS=""
-AC_CHECK_HEADER([gflags/gflags.h], [
-  AC_CHECK_LIB(gflags_nothreads, main, [
-    LIBGFLAGS_LIBS="-lgflags_nothreads"
-  ], [
-    AC_CHECK_LIB(gflags, main, [
-      LIBGFLAGS_LIBS="-lgflags"
-    ], [
-      AC_MSG_ERROR([error: libgflags_nothreads or libgflags are required])
-    ])
-  ])
-], [
-  AC_MSG_ERROR([error: libgflags headers are required])
-])
-AC_SUBST(LIBGFLAGS_CFLAGS)
-AC_SUBST(LIBGFLAGS_LIBS)
-
-AC_CHECK_PROGS(FREETYPE, freetype-config)
-if test -z "$FREETYPE"; then
-  AC_MSG_ERROR([error: libfreetype-dev is required])
-fi
-LIBFREETYPE_CFLAGS="`$FREETYPE --cflags`"
-LIBFREETYPE_LIBS="`$FREETYPE --libs`"
-AC_SUBST(LIBFREETYPE_CFLAGS)
-AC_SUBST(LIBFREETYPE_LIBS)
+PKG_CHECK_MODULES(LIBFREETYPE, freetype2)
+PKG_CHECK_MODULES(LIBGFLAGS, gflags)
 
 AC_CHECK_PROGS(RAGEL, ragel)
 

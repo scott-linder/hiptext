@@ -31,7 +31,6 @@ libhiptext_a_SOURCES = \
 	src/hiptext/graphic.h \
 	src/hiptext/jpeg.h \
 	src/hiptext/macterm.h \
-	src/hiptext/movie.h \
 	src/hiptext/pixel.h \
 	src/hiptext/png.h \
 	src/hiptext/sixelprinter.h \
@@ -41,7 +40,6 @@ libhiptext_a_SOURCES = \
 	src/hiptext/xterm256.h \
 	src/jpeg.cc \
 	src/macterm.cc \
-	src/movie.cc \
 	src/pixel.cc \
 	src/pixel_parse.cc \
 	src/pixel_parse.rl \
