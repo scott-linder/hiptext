@@ -22,12 +22,10 @@ libhiptext_a_SOURCES = \
 	src/artiste.cc \
 	src/charquantizer.cc \
 	src/css_color.rl \
-	src/font.cc \
 	src/graphic.cc \
 	src/hiptext.cc \
 	src/hiptext/artiste.h \
 	src/hiptext/charquantizer.h \
-	src/hiptext/font.h \
 	src/hiptext/graphic.h \
 	src/hiptext/jpeg.h \
 	src/hiptext/macterm.h \

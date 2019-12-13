@@ -19,7 +19,6 @@
 
 #include "hiptext/artiste.h"
 #include "hiptext/charquantizer.h"
-#include "hiptext/font.h"
 #include "hiptext/jpeg.h"
 #include "hiptext/pixel.h"
 #include "hiptext/png.h"
@@ -207,7 +206,6 @@ int main(int argc, char** argv) {
   const char* lang = std::getenv("LANG");
   if (lang == nullptr) lang = "en_US.utf8";
   std::locale::global(std::locale(lang));
-  InitFont();
 
   RenderAlgorithm algo;
   bool duo_pixel = false;
