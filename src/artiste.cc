@@ -101,11 +101,15 @@ Artiste::Artiste(std::ostream& output,
                  bool use_sixel)
     : output_(output), algorithm_(algorithm), duo_pixel_(duo_pixel) {
   winsize ws;
-  PCHECK(ioctl(0, TIOCGWINSZ, &ws) == 0);
-  // Users' concept of a "pixel" shall be as square as possible.
-  // Therefore, double ws_row since characters approximate ~2:1rectangles.
-  term_height_ = ws.ws_row * 2;
-  term_width_ = ws.ws_col;
+  if (ioctl(0, TIOCGWINSZ, &ws)) {
+    // Users' concept of a "pixel" shall be as square as possible.
+    // Therefore, double ws_row since characters approximate ~2:1rectangles.
+    term_height_ = ws.ws_row * 2;
+    term_width_ = ws.ws_col;
+  } else {
+    term_height_ = 1000;
+    term_width_ = 1000;
+  }
 
   if (use_sixel)
     getpixelsize(output, input, &term_width_, &term_height_);
